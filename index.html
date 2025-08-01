@@ -176,8 +176,8 @@
 
     <div class="container">
     <p>© 2025 Carlos | Todos los derechos reservados</p>
-    <script src="js/contador-visitas.js"></script>
-		 <p>Visitas: <span id="visits-counter">Cargando...</span></p>
+    <script src="js/contador.js"></script>
+		 <p>Visitas: <span id="counter">0</span></p>
     </div>
   </footer>
 
@@ -195,6 +195,11 @@
       });
     });
   </script>
+  <!-- Carga la librería de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <!-- Enlaza tu script personalizado -->
+  <script src="js/contador.js"></script>
 </html>
 </body>
 </html>
