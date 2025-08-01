@@ -1,0 +1,89 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f3f0f5;
+  color: #2B2B2B;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background-color: #5E4B8B;
+}
+
+.navbar-brand, .nav-link {
+  color: white !important;
+}
+
+#banner {
+  background-image: linear-gradient(to bottom right, #5E4B8B, #A67858), url('https://source.unsplash.com/1600x600/?creative,technology');
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 0px 0px;
+  text-align: center;
+}
+
+#banner h1 {
+  font-size: 3.2rem;
+  font-weight: bold;
+}
+
+#banner p {
+  font-size: 1.3rem;
+  opacity: 0.95;
+}
+
+section {
+  padding: 100px 0;
+}
+
+.section-band {
+  background-color: #ffffff;
+}
+
+.section-alt {
+  background-color: #EDE5DA;
+}
+
+.section-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #5E4B8B;
+}
+
+.section-content p {
+  font-size: 1.15rem;
+  color: #333;
+}
+
+footer {
+  background-color: #2B2B2B;
+  color: white;
+  text-align: center;
+  padding: 30px 0;
+}
+
+/* Animación suave */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
