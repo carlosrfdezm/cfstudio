@@ -196,10 +196,15 @@
     });
   </script>
   <!-- Carga la librería de Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Supabase v1 compatible con window.supabase -->
+<!-- Supabase v1 compatible con window.supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
+
+
 
   <!-- Enlaza tu script personalizado -->
-  <script src="js/contador.js"></script>
+  <script type="module" src="js/contador.js"></script>
+
 </html>
 </body>
 </html>
