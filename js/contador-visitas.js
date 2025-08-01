@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    const namespace = 'cfstudiio'; // Asegúrate de que este sea el mismo que usaste antes
+    const namespace = 'cfstudio'; // Asegúrate de que este sea el mismo que usaste antes
     const key = 'pagina-principal'; // Asegúrate de que este sea el mismo que usaste antes
     const counterElement = document.getElementById('visits-counter');
 
