@@ -87,3 +87,148 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Tarjetas rotatorias */
+.card-container {
+  perspective: 1000px;
+  width: 300px;
+  height: 200px;
+  margin: 20px auto;
+  display: inline-block;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.card-container:hover .card {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.card-front {
+  background-color: #5E4B8B;
+  color: white;
+}
+
+.card-back {
+  background-color: #EDE5DA;
+  color: #2B2B2B;
+  transform: rotateY(180deg);
+}
+
+.card-container {
+  perspective: 1000px;
+  margin: 20px;
+  width: 280px;
+  height: 200px;
+  transition: transform 0.6s ease;
+}
+
+.card-container {
+  perspective: 1000px;
+  width: 300px;
+  height: 200px;
+  margin: 20px auto;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.card-container:hover .card {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  z-index: 2;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #11998e, #38ef7d);
+  color: white;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.flip-container {
+  perspective: 1000px;
+  width: 100%;
+  height: auto;
+}
+
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.flip-container:hover .flip-card {
+  transform: rotateY(180deg);
+}
+
+.flip-front, .flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.flip-front img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.flip-back {
+  background: linear-gradient(135deg, #5E4B8B, #A67858);
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
