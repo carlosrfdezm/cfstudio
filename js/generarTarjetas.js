@@ -2,21 +2,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const contenedor = document.getElementById("tarjetas-servicios");
 
   servicios.forEach(servicio => {
-    const tarjeta = document.createElement("div");
-    tarjeta.className = "card-container fade-in";
-    tarjeta.innerHTML = `
-      <div class="card">
-        <div class="card-front">
-          <i class="${servicio.icono}" style="font-size: 2rem; margin-bottom: 10px;"></i>
-          <h3>${servicio.titulo}</h3>
-          <p>${servicio.subtitulo}</p>
-        </div>
-        <div class="card-back">
-          <p>${servicio.detalle}</p>
+    const col = document.createElement("div");
+    col.className = "col-md-6 mb-4 d-flex justify-content-center";
+
+    col.innerHTML = `
+      <div class="card-container fade-in">
+        <div class="card">
+          <div class="card-face card-front">
+            <i class="${servicio.icono}" style="font-size: 2rem; margin-bottom: 10px;"></i>
+            <h3>${servicio.titulo}</h3>
+            <p>${servicio.subtitulo}</p>
+          </div>
+          <div class="card-face card-back">
+            <p>${servicio.detalle}</p>
+          </div>
         </div>
       </div>
     `;
-    contenedor.appendChild(tarjeta);
+
+    contenedor.appendChild(col);
   });
 
   // Activar animación de entrada
@@ -30,4 +34,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
 });
-
