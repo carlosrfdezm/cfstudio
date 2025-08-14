@@ -7,7 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/estilos.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+	
+	
 </head>
 <body>
 
@@ -184,6 +185,12 @@
   </div>
 </section>
 
+<section id="dashboard-mini" style="padding: 2rem; background: #f9f9f9;">
+  <h2 style="text-align: center;  color: #5E4B8B ">📊 Visitas por país</h2>
+  <canvas id="visitasChart" width="400" height="250" style="display: block; margin: 0 auto;"></canvas>
+</section>
+
+
     <div class="container">
     <p>© 2025 Carlos | Todos los derechos reservados</p>
     
@@ -204,6 +211,7 @@
         }
       });
     });
+
   </script>
   <!-- Carga la librería de Supabase -->
   <!-- Supabase v1 compatible con window.supabase -->
@@ -211,11 +219,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1"></script>
 <script src="js/servicios.js"></script>
 <script src="js/generarTarjetas.js"></script>
+<!-- Enlaza tu script personalizado -->
+<script src="js/contador.js"></script>
 
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Supabase JS v2 -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Enlaza tu script personalizado -->
-  <script src="js/contador.js"></script>
+<!-- Script personalizado -->
+<script src="js/dashboard.js"></script>
+
 
 </html>
 </body>
