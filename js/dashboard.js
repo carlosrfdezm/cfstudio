@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const ctx = document.getElementById("visitasChart").getContext("2d");
     new Chart(ctx, {
-      type: "bar",
+      type: "pie",
       data: {
         labels,
         datasets: [{
