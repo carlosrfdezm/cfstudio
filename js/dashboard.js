@@ -61,8 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
             size: 14
           },
           formatter: (value, context) => {
-            return context.chart.data.labels[context.dataIndex];
-          }
+          const label = context.chart.data.labels[context.dataIndex];
+          return `${label}: ${value}`;
+         }
         }
       }
     },
