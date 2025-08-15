@@ -53,18 +53,22 @@ document.addEventListener("DOMContentLoaded", () => {
       options: {
         responsive: true,
         plugins: {
-          legend: { display: true },
-          
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { precision: 0 }
+          legend: { display: false },
+	datalabels: {
+          color: '#fff',
+          font: {
+            weight: 'bold',
+            size: 14
+          },
+          formatter: (value, context) => {
+            return context.chart.data.labels[context.dataIndex];
           }
         }
       }
-    });
-  }
+    },
+    plugins: [ChartDataLabels] // ← activamos el plugin
+  });
+}
 
   cargarDatos();
 });
