@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         responsive: true,
         plugins: {
           legend: { display: false },
-          title: { display: true, text: "Visitas por país (Supabase)" }
+          title: { display: true, text: "Visitas por país"}
         },
         scales: {
           y: {
