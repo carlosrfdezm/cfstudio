@@ -1,7 +1,14 @@
-const supabase = supabase.createClient(
-  'https://tu-proyecto.supabase.co',
-  'tu-clave-publica'
+console.log('Supabase:', supabase);
+console.log('Tiene createClient:', typeof supabase.createClient); // debe mostrar "function"
+
+// ✅ No destructures: usa directamente supabase.createClient
+const client = supabase.createClient(
+  'https://zrrxvuviwywvjkautkrp.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E'
 );
+
+console.log('Cliente Supabase creado:', client);
+
 
 const bubble = document.getElementById('chat-bubble');
 const windowChat = document.getElementById('chat-window');
@@ -12,7 +19,6 @@ const adminArea = document.getElementById('admin-chat-area');
 const sessions = {};
 let visitorIP = null;
 
-// Detectar modo admin por URL
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'true';
 
 if (isAdmin) {
@@ -31,16 +37,15 @@ if (isAdmin) {
     });
 }
 
-// Modo visitante
 bubble.addEventListener('click', () => {
   windowChat.classList.toggle('hidden');
 });
 
-input.addEventListener('keydown', e => {
+input.addEventListener('keydown', async e => {
   if (e.key === 'Enter') {
     const content = input.value.trim();
     if (!content) return;
-    supabase.from('messages').insert([{ ip: visitorIP, sender: 'visitor', content }]);
+    await client.from('messages').insert([{ ip: visitorIP, sender: 'visitor', content }]);
     input.value = '';
   }
 });
@@ -54,17 +59,22 @@ function renderMessage(msg, container) {
 }
 
 async function fetchMessages(ip) {
-  const { data } = await supabase
+  const { data, error } = await client
     .from('messages')
     .select('*')
     .eq('ip', ip)
     .order('created_at', { ascending: true });
 
+  if (error) {
+    console.error('Error al obtener mensajes:', error);
+    return;
+  }
+
   data.forEach(msg => renderMessage(msg, messagesDiv));
 }
 
 function subscribeToMessages(ip) {
-  supabase
+  client
     .channel('chat')
     .on('postgres_changes', {
       event: 'INSERT',
@@ -77,12 +87,16 @@ function subscribeToMessages(ip) {
     .subscribe();
 }
 
-// Modo administrador
 async function loadAdminView() {
-  const { data } = await supabase
+  const { data, error } = await client
     .from('messages')
     .select('*')
     .order('created_at', { ascending: true });
+
+  if (error) {
+    console.error('Error en vista admin:', error);
+    return;
+  }
 
   adminArea.innerHTML = '';
   data.forEach(msg => {
@@ -94,7 +108,7 @@ async function loadAdminView() {
     renderMessage(msg, document.getElementById(`admin-msgs-${msg.ip}`));
   });
 
-  supabase
+  client
     .channel('admin-chat')
     .on('postgres_changes', {
       event: 'INSERT',
@@ -123,11 +137,11 @@ function createAdminWindow(ip) {
   adminArea.appendChild(wrapper);
 
   const input = wrapper.querySelector(`#admin-input-${ip}`);
-  input.addEventListener('keydown', e => {
+  input.addEventListener('keydown', async e => {
     if (e.key === 'Enter') {
       const content = e.target.value.trim();
       if (!content) return;
-      supabase.from('messages').insert([{ ip, sender: 'admin', content }]);
+      await client.from('messages').insert([{ ip, sender: 'admin', content }]);
       e.target.value = '';
     }
   });
