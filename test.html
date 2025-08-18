@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Supabase</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <script>
+    console.log('Supabase global:', window.supabase);
+    console.log('typeof createClient:', typeof window.supabase.createClient);
+
+    const client = window.supabase.createClient(
+      'https://zrrxvuviwywvjkautkrp.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+    );
+
+    console.log('Cliente creado:', client);
+  </script>
+</body>
+</html>

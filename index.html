@@ -194,15 +194,33 @@
 </div>
 </section>
 
- <!-- Burbuja flotante visitante -->
-  <div id="chat-bubble" class="hidden">💬</div>
+<!-- Burbuja flotante visitante -->
+<div id="chat-bubble" title="Abrir chat">
+  💬
+</div>
 
-  <!-- Ventana de chat visitante -->
-  <div id="chat-window" class="hidden">
-    <div id="chat-header">Chat con Carlos</div>
-    <div id="chat-messages"></div>
-    <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." />
+<!-- Ventana de chat -->
+<div id="chat-window" style="display: none;">
+  <div class="chat-header">
+    <svg class="chat-icon" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
+      <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+    </svg>
+    Chat visitante
   </div>
+
+  <div id="chat-messages" class="messages"></div>
+
+  <div id="chat-input">
+    <input id="chat-text" type="text" placeholder="Escribe tu mensaje..." />
+    <button id="chat-send">Enviar</button>
+    <button id="clear-chat" title="Limpiar conversación">🗑️</button>
+  </div>
+</div>
+
+<!-- Panel admin oculto -->
+<div id="admin-area" class="hidden"></div>
+
+
 
   <!-- Área de chats flotantes del administrador -->
   <div id="admin-chat-area" class="hidden"></div>
@@ -233,6 +251,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
 
+<script type="module" src="js/chat.js"></script>
+
+
 <script src="js/servicios.js"></script>
 <script src="js/generarTarjetas.js"></script>
 <!-- Enlaza tu script personalizado -->
@@ -249,10 +270,10 @@
 
 <!-- Script personalizado -->
 <script src="js/dashboard.js"></script>
-<script src="js/chat.js"></script>
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
+
+<!--Start of Tawk.to Script -->
+<!--<script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -262,7 +283,7 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
-</script>
+</script>-->
 <!--End of Tawk.to Script-->
 
 </body>

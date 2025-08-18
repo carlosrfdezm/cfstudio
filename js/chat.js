@@ -1,20 +1,26 @@
-console.log('Supabase:', supabase);
-console.log('Tiene createClient:', typeof supabase.createClient); // debe mostrar "function"
+console.log('Supabase global:', window.supabase);
+console.log('typeof createClient:', typeof window.supabase.createClient);
+function sanitizeIP(ip) {
+  return ip.replaceAll('.', '-'); // Ej: "152.207.224.105" → "152-207-224-105"
+}
 
-// ✅ No destructures: usa directamente supabase.createClient
-const client = supabase.createClient(
-  'https://zrrxvuviwywvjkautkrp.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E'
-);
+const adminArea = document.getElementById('admin-area');
 
-console.log('Cliente Supabase creado:', client);
+
+    const client = window.supabase.createClient(
+      'https://zrrxvuviwywvjkautkrp.supabase.co',
+       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E'
+      
+    );
+
+    console.log('Cliente creado:', client);
 
 
 const bubble = document.getElementById('chat-bubble');
 const windowChat = document.getElementById('chat-window');
 const messagesDiv = document.getElementById('chat-messages');
-const input = document.getElementById('chat-input');
-const adminArea = document.getElementById('admin-chat-area');
+const input = document.getElementById('chat-text');
+const sendBtn = document.getElementById('chat-send');
 
 const sessions = {};
 let visitorIP = null;
@@ -38,8 +44,12 @@ if (isAdmin) {
 }
 
 bubble.addEventListener('click', () => {
-  windowChat.classList.toggle('hidden');
+    setTimeout(() => input.focus(), 300);
+
+  const isVisible = windowChat.style.display === 'flex';
+  windowChat.style.display = isVisible ? 'none' : 'flex';
 });
+
 
 input.addEventListener('keydown', async e => {
   if (e.key === 'Enter') {
@@ -75,17 +85,15 @@ async function fetchMessages(ip) {
 
 function subscribeToMessages(ip) {
   client
-    .channel('chat')
-    .on('postgres_changes', {
-      event: 'INSERT',
-      schema: 'public',
-      table: 'messages',
-    }, payload => {
+    .from('messages')
+    .on('INSERT', payload => {
       const msg = payload.new;
       if (msg.ip === ip) renderMessage(msg, messagesDiv);
     })
     .subscribe();
 }
+
+
 
 async function loadAdminView() {
   const { data, error } = await client
@@ -105,38 +113,50 @@ async function loadAdminView() {
       createAdminWindow(msg.ip);
     }
     sessions[msg.ip].push(msg);
-    renderMessage(msg, document.getElementById(`admin-msgs-${msg.ip}`));
+    renderMessage(msg, document.getElementById(`admin-msgs-${sanitizeIP(msg.ip)}`));
+
   });
 
   client
-    .channel('admin-chat')
-    .on('postgres_changes', {
-      event: 'INSERT',
-      schema: 'public',
-      table: 'messages',
-    }, payload => {
-      const msg = payload.new;
-      if (!sessions[msg.ip]) {
-        sessions[msg.ip] = [];
-        createAdminWindow(msg.ip);
-      }
-      sessions[msg.ip].push(msg);
-      renderMessage(msg, document.getElementById(`admin-msgs-${msg.ip}`));
-    })
-    .subscribe();
+  .from('messages')
+  .on('INSERT', payload => {
+    const msg = payload.new;
+    if (!sessions[msg.ip]) {
+      sessions[msg.ip] = [];
+      createAdminWindow(msg.ip);
+    }
+    sessions[msg.ip].push(msg);
+    renderMessage(msg, document.getElementById(`admin-msgs-${sanitizeIP(msg.ip)}`));
+
+  })
+  .subscribe();
 }
 
 function createAdminWindow(ip) {
+  const safeIP = sanitizeIP(ip);
+
   const wrapper = document.createElement('div');
   wrapper.className = 'chat-window';
   wrapper.innerHTML = `
-    <div class="chat-header">IP: ${ip}</div>
-    <div class="messages" id="admin-msgs-${ip}"></div>
-    <input type="text" placeholder="Responder..." id="admin-input-${ip}" />
-  `;
+  <div class="chat-header">IP: ${ip}</div>
+  <div class="messages" id="admin-msgs-${safeIP}"></div>
+  <div class="admin-input-wrapper">
+    <input type="text" placeholder="Responder..." id="admin-input-${safeIP}" />
+    <button id="admin-send-${safeIP}">Enviar</button>
+  </div>
+`;
+
+const sendBtn = wrapper.querySelector(`#admin-send-${safeIP}`);
+sendBtn.addEventListener('click', async () => {
+  const content = input.value.trim();
+  if (!content) return;
+  await client.from('messages').insert([{ ip, sender: 'admin', content }]);
+  input.value = '';
+});
+
   adminArea.appendChild(wrapper);
 
-  const input = wrapper.querySelector(`#admin-input-${ip}`);
+  const input = wrapper.querySelector(`#admin-input-${safeIP}`);
   input.addEventListener('keydown', async e => {
     if (e.key === 'Enter') {
       const content = e.target.value.trim();
@@ -146,3 +166,28 @@ function createAdminWindow(ip) {
     }
   });
 }
+
+
+sendBtn.addEventListener('click', async () => {
+  const content = input.value.trim();
+  if (!content) return;
+  const { data, error } = await client.from('messages').insert([{ ip: visitorIP, sender: 'visitor', content }]);
+  if (!error && data) renderMessage(data[0], messagesDiv);
+  input.value = '';
+});
+
+document.getElementById('clear-chat').addEventListener('click', async () => {
+  if (!visitorIP) return;
+  const { error } = await client
+    .from('messages')
+    .delete()
+    .eq('ip', visitorIP);
+
+  if (!error) {
+    messagesDiv.innerHTML = '';
+  }
+});
+
+
+
+
