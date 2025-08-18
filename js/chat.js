@@ -148,23 +148,35 @@ function createAdminWindow(ip) {
 
 const sendBtn = wrapper.querySelector(`#admin-send-${safeIP}`);
 sendBtn.addEventListener('click', async () => {
+  const input = wrapper.querySelector(`#admin-input-${safeIP}`);
   const content = input.value.trim();
   if (!content) return;
-  await client.from('messages').insert([{ ip, sender: 'admin', content }]);
+
+  const { data, error } = await client.from('messages').insert([{ ip, sender: 'admin', content }]);
+  if (!error && data && data[0]) {
+    renderMessage(data[0], document.getElementById(`admin-msgs-${safeIP}`));
+  }
+
   input.value = '';
 });
+
 
   adminArea.appendChild(wrapper);
 
   const input = wrapper.querySelector(`#admin-input-${safeIP}`);
   input.addEventListener('keydown', async e => {
-    if (e.key === 'Enter') {
-      const content = e.target.value.trim();
-      if (!content) return;
-      await client.from('messages').insert([{ ip, sender: 'admin', content }]);
-      e.target.value = '';
+  if (e.key === 'Enter') {
+    const content = e.target.value.trim();
+    if (!content) return;
+
+    const { data, error } = await client.from('messages').insert([{ ip, sender: 'admin', content }]);
+    if (!error && data && data[0]) {
+      renderMessage(data[0], document.getElementById(`admin-msgs-${safeIP}`));
     }
-  });
+
+    e.target.value = '';
+  }
+});
 }
 
 
