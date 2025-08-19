@@ -1,0 +1,13 @@
+{
+ "name": "cfstudio",
+ "short_name": "cfstudio",
+ "start_url":"https://carlosrfdezm.github.io/cfstudio/",
+ "display":"standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#25D366",
+ "icons":[{
+   "src": "images/logo.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }]
+}
