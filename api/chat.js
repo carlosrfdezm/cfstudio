@@ -21,18 +21,24 @@ export default async function handler(req, res) {
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-goog-api-key": process.env.GEMINI_API_KEY
-        },
-          body: JSON.stringify({contents: history.map(msg => ({role: msg.role === "bot" ? "model" : "user",parts: [{ text: msg.text }]
-          }))
-        })
-      }
-    );
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-goog-api-key": process.env.GEMINI_API_KEY
+    },
+    body: JSON.stringify({
+      contents: [
+        systemPrompt, ...history.map(msg => ({
+          role: msg.role === "bot" ? "model" : "user",
+          parts: [{ text: msg.text }]
+        }))
+      ]
+    })
+  }
+);
+
 
     const data = await response.json();
     const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sin respuesta";
