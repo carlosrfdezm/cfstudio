@@ -293,16 +293,7 @@
 
   // Mostrar/ocultar chat
 
-  function newConversation() {
-  history = [];
-  const messages = document.getElementById("chat-messages");
-  messages.innerHTML = "";
-
-  const welcomeMsg = document.createElement("div");
-  welcomeMsg.classList.add("bot");
-  welcomeMsg.textContent = "Bot: ¡Hola! Soy tu asistente especializado en los servicios de Carlos Fernández. Puedo ayudarte con impresión profesional, diseño gráfico, migración digital y educación técnica.";
-  messages.appendChild(welcomeMsg);
-}
+  
   function toggleChat() {
     const chat = document.getElementById("chatbot");
     const input = document.getElementById("user-input");
@@ -315,6 +306,8 @@
       setTimeout(() => input.focus(), 300); // enfoca solo si está abierto
     }
   }
+
+  
 
   async function sendMessage() {
     const prompt = document.getElementById("user-input").value.trim();
@@ -365,12 +358,20 @@
     messages.scrollTop = messages.scrollHeight;
   }
 
+  
    // 👉 Nueva función para reiniciar conversación
   function newConversation() {
     history = []; // vaciar historial
     const messages = document.getElementById("chat-messages");
     messages.innerHTML = ""; // limpiar mensajes en pantalla
+
+    const welcomeMsg = document.createElement("div");
+    welcomeMsg.classList.add("bot");
+    welcomeMsg.textContent = "Bot: ¡Hola! Soy tu asistente especializado en los servicios de Carlos Fernández. Puedo ayudarte con impresión profesional, diseño gráfico, migración digital y educación técnica.";
+    messages.appendChild(welcomeMsg);
   }
+
+ 
 </script>
 
 
