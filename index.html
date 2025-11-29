@@ -292,6 +292,17 @@
   let history = [];
 
   // Mostrar/ocultar chat
+
+  function newConversation() {
+  history = [];
+  const messages = document.getElementById("chat-messages");
+  messages.innerHTML = "";
+
+  const welcomeMsg = document.createElement("div");
+  welcomeMsg.classList.add("bot");
+  welcomeMsg.textContent = "Bot: ¡Hola! Soy tu asistente especializado en los servicios de Carlos Fernández. Puedo ayudarte con impresión profesional, diseño gráfico, migración digital y educación técnica.";
+  messages.appendChild(welcomeMsg);
+}
   function toggleChat() {
     const chat = document.getElementById("chatbot");
     const input = document.getElementById("user-input");
