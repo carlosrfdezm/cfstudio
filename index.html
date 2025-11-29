@@ -346,25 +346,7 @@ async function sendMessage() {
   messages.scrollTop = messages.scrollHeight;
 }
 
-let history = [];
 
-async function sendMessage() {
-  const prompt = document.getElementById("user-input").value;
-  if (!prompt) return;
-
-  history.push({ role: "user", text: prompt });
-
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ history })
-  });
-
-  const data = await res.json();
-  history.push({ role: "bot", text: data.reply });
-
-  // pintar mensajes...
-}
 
 
 </script>
