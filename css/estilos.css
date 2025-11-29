@@ -736,6 +736,80 @@ input[type="text"] {
   }
 }
 
+/* Burbuja flotante */
+#chat-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0078ff;
+  color: white;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Ventana de chat */
+#chatbot {
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
+  width: 300px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+#chat-header {
+  background: #0078ff;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+#chat-messages {
+  height: 200px;
+  padding: 10px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+#chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+#user-input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+}
+
+#send-btn {
+  background: #0078ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* Ocultar chat por defecto */
+.hidden {
+  display: none;
+}
+
+
+
 
 
 
