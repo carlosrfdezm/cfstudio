@@ -211,6 +211,7 @@
     <div id="chat-input">
       <input id="user-input" type="text" placeholder="Escribe tu mensaje">
       <button id="send-btn" onclick="sendMessage()">Enviar</button>
+       <button onclick="newConversation()">Nueva conversación</button>
     </div>
   </div>
 
@@ -351,6 +352,13 @@
 
     document.getElementById("user-input").value = "";
     messages.scrollTop = messages.scrollHeight;
+  }
+
+   // 👉 Nueva función para reiniciar conversación
+  function newConversation() {
+    history = []; // vaciar historial
+    const messages = document.getElementById("chat-messages");
+    messages.innerHTML = ""; // limpiar mensajes en pantalla
   }
 </script>
 
