@@ -18,8 +18,8 @@ export default async function handler(req, res) {
           "Content-Type": "application/json",
           "X-goog-api-key": process.env.GEMINI_API_KEY
         },
-        body: JSON.stringify({
-          contents: history.map(msg => ({ parts: [{ text: msg.text }] }))
+          body: JSON.stringify({contents: history.map(msg => ({role: msg.role === "bot" ? "model" : "user",parts: [{ text: msg.text }]
+          }))
         })
       }
     );
