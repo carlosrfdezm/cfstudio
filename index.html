@@ -195,27 +195,12 @@
 </div>
 </section>
 
-<!-- Burbuja flotante visitante
+<!-- Burbuja flotante visitante-->
 <div id="chat-bubble" title="Abrir chat">
   💬
-</div>-->
+</div>
 
-<!-- Asistente virtual-->
- <!-- Burbuja flotante -->
-  <div id="chat-bubble" onclick="toggleChat()">💬</div>
-
-  <!-- Ventana de chat -->
-  <div id="chatbot" class="hidden">
-    <div id="chat-header">Asistente Virtual</div>
-    <div id="chat-messages"></div>
-    <div id="chat-input">
-      <input id="user-input" type="text" placeholder="Escribe tu mensaje">
-      <button id="send-btn" onclick="sendMessage()">Enviar</button>
-      <button id="new-convo-btn" onclick="newConversation()">Nueva conversación</button>
-    </div>
-  </div>
-
-<!-- Ventana de chat 
+<!-- Ventana de chat -->
 <div id="chat-window" style="display: none;">
   <div class="chat-header">
     <svg class="chat-icon" viewBox="0 0 24 24" width="20" height="20" fill="#fff">
@@ -230,11 +215,37 @@
     <input id="chat-text" type="text" placeholder="Escribe tu mensaje..." />
     <button id="chat-send">Enviar</button>
     <button id="clear-chat" title="Limpiar conversación">🗑️</button>
-  </div> -->
-
-
+  </div>
 
 </div>
+
+<!-- Asistente virtual-->
+ <!-- Burbuja flotante -->
+  <div id="chat-bubble-asistente" onclick="toggleChatAsistente()"> <svg viewBox="0 0 24 24" width="26" height="26" fill="white">
+    <!-- Cabeza del robot -->
+    <rect x="4" y="6" width="16" height="12" rx="2" ry="2" stroke="white" fill="none" stroke-width="2"/>
+    <!-- Antena -->
+    <line x1="12" y1="2" x2="12" y2="6" stroke="white" stroke-width="2"/>
+    <circle cx="12" cy="2" r="1.5" fill="white"/>
+    <!-- Ojos -->
+    <circle cx="9" cy="12" r="1.5" fill="white"/>
+    <circle cx="15" cy="12" r="1.5" fill="white"/>
+    <!-- Boca -->
+    <rect x="8" y="15" width="8" height="2" fill="white"/>
+  </svg></div>
+
+  <!-- Ventana de chat -->
+  <div id="chatbot-asistente" class="hidden">
+    <div id="chat-header-asistente">Asistente Virtual</div>
+    <div id="chat-messages-asistente"></div>
+    <div id="chat-input-asistente"></div>
+      <input id="user-input-asistente" type="text" placeholder="Escribe tu mensaje">
+      <button id="send-btn-asistente" onclick="sendMessageAsistente()">Enviar</button>
+      <button id="new-convo-btn-asistente" onclick="newConversationAsistente()">Nueva conversación</button>
+    </div>
+  </div>
+
+
 
 
 
@@ -286,17 +297,17 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
-<!--Script del chat AI de google -->
+<!--Script del chat AI de google-->
 <script>
   // Historial vive en el navegador
-  let history = [];
+  let historyAsistente = [];
 
   // Mostrar/ocultar chat
 
   
-  function toggleChat() {
-    const chat = document.getElementById("chatbot");
-    const input = document.getElementById("user-input");
+  function toggleChatAsistente() {
+    const chat = document.getElementById("chatbot-asistente");
+    const input = document.getElementById("user-input-asistente");
 
     if (chat) {
       chat.classList.toggle("hidden"); // abre/cierra con CSS
@@ -309,14 +320,14 @@
 
   
 
-  async function sendMessage() {
-    const prompt = document.getElementById("user-input").value.trim();
+  async function sendMessageAsistente() {
+    const prompt = document.getElementById("user-input-asistente").value.trim();
     if (!prompt) return;
 
-    const messages = document.getElementById("chat-messages");
+    const messages = document.getElementById("chat-messages-asistente");
 
     // Guardar mensaje del usuario en historial
-    history.push({ role: "user", text: prompt });
+    historyAsistente.push({ role: "user", text: prompt });
 
     // Mostrar mensaje del usuario
     const userMsg = document.createElement("div");
@@ -329,7 +340,7 @@
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ history })
+        body: JSON.stringify({ historyAsistente })
       });
 
       if (!res.ok) {
@@ -354,20 +365,20 @@
       messages.appendChild(errMsg);
     }
 
-    document.getElementById("user-input").value = "";
+    document.getElementById("user-input-asistente").value = "";
     messages.scrollTop = messages.scrollHeight;
   }
 
   
    // 👉 Nueva función para reiniciar conversación
-  function newConversation() {
-    history = []; // vaciar historial
-    const messages = document.getElementById("chat-messages");
+  function newConversationAsistente() {
+    historyAsistente = []; // vaciar historial
+    const messages = document.getElementById("chat-messages-asistente");
     messages.innerHTML = ""; // limpiar mensajes en pantalla
 
     const welcomeMsg = document.createElement("div");
     welcomeMsg.classList.add("bot");
-    welcomeMsg.textContent = "Bot: ¡Hola! Soy tu asistente especializado en los servicios de Carlos Fernández. Puedo ayudarte con impresión profesional, diseño gráfico, migración digital y educación técnica.";
+    welcomeMsg.textContent = "Bot: ¡Hola! Soy tu asistente especializado en los servicios de Carlos Fernández. Puedo ayudarte con diseño y programación web, diseño gráfico, maquetación editorial y educación técnica.";
     messages.appendChild(welcomeMsg);
   }
 

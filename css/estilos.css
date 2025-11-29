@@ -736,11 +736,11 @@ input[type="text"] {
   }
 }
 
-/* Burbuja flotante */
-#chat-bubble {
+/* Burbuja flotante asistente */
+#chat-bubble-asistente {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 100px;
+  right: 30px;
   background: #0078ff;
   color: white;
   font-size: 24px;
@@ -754,11 +754,11 @@ input[type="text"] {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Ventana de chat */
-#chatbot {
+/* Ventana de chat asistente */
+#chatbot-asistente {
   position: fixed;
-  bottom: 100px;
-  right: 50px;
+  bottom: 150px;
+  right: 30px;
   width: 300px;
   background: #fff;
   border: 1px solid #ccc;
@@ -768,7 +768,7 @@ input[type="text"] {
   overflow: hidden;
 }
 
-#chat-header {
+#chat-header-asistente {
   background: #0078ff;
   color: white;
   padding: 10px;
@@ -776,7 +776,7 @@ input[type="text"] {
   text-align: center;
 }
 
-#chat-messages {
+#chat-messages-asistente {
   height: 200px;
   padding: 10px;
   overflow-y: auto;
@@ -784,11 +784,13 @@ input[type="text"] {
   background: #f9f9f9;
   color: #000;
 }
-#chat-messages div {
+
+#chat-messages-asistente div {
   margin-bottom: 5px;
-  color:#000;
+  color: #000;
 }
-#chat-messages .user {
+
+#chat-messages-asistente .user {
   background: #0078ff;
   color: #fff;
   padding: 8px 12px;
@@ -799,7 +801,7 @@ input[type="text"] {
   margin-left: auto; /* alinea a la derecha */
 }
 
-#chat-messages .bot {
+#chat-messages-asistente .bot {
   background: #eee;
   color: #000;
   padding: 8px 12px;
@@ -809,19 +811,20 @@ input[type="text"] {
   max-width: 70%;
   margin-right: auto; /* alinea a la izquierda */
 }
-#chat-input {
+
+#chat-input-asistente {
   display: flex;
   border-top: 1px solid #ccc;
 }
 
-#user-input {
+#user-input-asistente {
   flex: 1;
   border: none;
   padding: 10px;
   font-size: 14px;
 }
 
-#send-btn {
+#send-btn-asistente {
   background: #0078ff;
   color: white;
   border: none;
@@ -834,7 +837,7 @@ input[type="text"] {
   display: none;
 }
 
-#new-convo-btn {
+#new-convo-btn-asistente {
   background-color: #ff4d4d; /* rojo suave */
   color: #fff;              /* texto blanco */
   border: none;
@@ -846,9 +849,10 @@ input[type="text"] {
   transition: background-color 0.3s ease;
 }
 
-#new-convo-btn:hover {
+#new-convo-btn-asistente:hover {
   background-color: #e60000; /* rojo más intenso al pasar el mouse */
 }
+
 
 
 
