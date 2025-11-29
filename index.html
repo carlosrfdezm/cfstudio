@@ -286,70 +286,74 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
 <!--Script del chat AI de google -->
- <script>
-    // Mostrar/ocultar chat
-function toggleChat() {
-  const chat = document.getElementById("chatbot");
-  const input = document.getElementById("user-input");
+<script>
+  // Historial vive en el navegador
+  let history = [];
 
-  if (chat) {
-    chat.classList.toggle("hidden"); // abre/cierra con CSS
-  }
+  // Mostrar/ocultar chat
+  function toggleChat() {
+    const chat = document.getElementById("chatbot");
+    const input = document.getElementById("user-input");
 
-  if (input && chat && !chat.classList.contains("hidden")) {
-    setTimeout(() => input.focus(), 300); // enfoca solo si está abierto
-  }
-}
-
-async function sendMessage() {
-  const prompt = document.getElementById("user-input").value;
-  if (!prompt) return;
-
-  const messages = document.getElementById("chat-messages");
-
-  // Mostrar mensaje del usuario
-  const userMsg = document.createElement("div");
-  userMsg.textContent = "Tú: " + prompt;
-  messages.appendChild(userMsg);
-
-  try {
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt })
-    });
-
-    if (!res.ok) {
-      throw new Error("Error en la petición: " + res.status);
+    if (chat) {
+      chat.classList.toggle("hidden"); // abre/cierra con CSS
     }
 
-    const data = await res.json();
+    if (input && chat && !chat.classList.contains("hidden")) {
+      setTimeout(() => input.focus(), 300); // enfoca solo si está abierto
+    }
+  }
 
-    // Mostrar respuesta del bot
+  async function sendMessage() {
+    const prompt = document.getElementById("user-input").value.trim();
+    if (!prompt) return;
+
+    const messages = document.getElementById("chat-messages");
+
+    // Guardar mensaje del usuario en historial
+    history.push({ role: "user", text: prompt });
+
+    // Mostrar mensaje del usuario
     const userMsg = document.createElement("div");
     userMsg.classList.add("user"); // 👈 clase para usuario
     userMsg.textContent = "Tú: " + prompt;
     messages.appendChild(userMsg);
 
-    const botMsg = document.createElement("div");
-    botMsg.classList.add("bot"); // 👈 clase para bot
-    botMsg.textContent = "Bot: " + (data.reply || "Sin respuesta");
-    messages.appendChild(botMsg);
+    try {
+      // Enviar historial completo al backend
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ history })
+      });
 
-  } catch (error) {
-    const errMsg = document.createElement("div");
-    errMsg.textContent = "Error: " + error.message;
-    messages.appendChild(errMsg);
+      if (!res.ok) {
+        throw new Error("Error en la petición: " + res.status);
+      }
+
+      const data = await res.json();
+
+      // Guardar respuesta del bot en historial
+      history.push({ role: "bot", text: data.reply });
+
+      // Mostrar respuesta del bot
+      const botMsg = document.createElement("div");
+      botMsg.classList.add("bot"); // 👈 clase para bot
+      botMsg.textContent = "Bot: " + (data.reply || "Sin respuesta");
+      messages.appendChild(botMsg);
+
+    } catch (error) {
+      const errMsg = document.createElement("div");
+      errMsg.classList.add("bot");
+      errMsg.textContent = "Bot: Error → " + error.message;
+      messages.appendChild(errMsg);
+    }
+
+    document.getElementById("user-input").value = "";
+    messages.scrollTop = messages.scrollHeight;
   }
-
-  document.getElementById("user-input").value = "";
-  messages.scrollTop = messages.scrollHeight;
-}
-
-
-
-
 </script>
+
 
 
 <!-- Script personalizado -->
