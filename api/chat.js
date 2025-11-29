@@ -37,7 +37,7 @@ export default async function handler(req, res) {
   }
 }
 
-let history = []; // memoria temporal en el backend
+let history = [];
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -57,19 +57,25 @@ export default async function handler(req, res) {
           "X-goog-api-key": process.env.GEMINI_API_KEY
         },
         body: JSON.stringify({
-          contents: history.map(msg => ({ parts: [{ text: msg.text }] }))
+          contents: history.map(msg => ({
+            parts: [{ text: msg.text }]
+          }))
         })
       }
     );
 
     const data = await response.json();
+    console.log("Gemini response:", data);
+
     const reply =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text || "Sin respuesta";
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Sin respuesta";
 
     history.push({ role: "bot", text: reply });
 
     res.status(200).json({ reply });
   } catch (error) {
+    console.error("Error en handler:", error);
     res.status(500).json({ error: "Error en la API Gemini", details: error.message });
   }
 }

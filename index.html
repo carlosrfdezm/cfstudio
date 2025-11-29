@@ -326,7 +326,13 @@ async function sendMessage() {
     const data = await res.json();
 
     // Mostrar respuesta del bot
+    const userMsg = document.createElement("div");
+    userMsg.classList.add("user"); // 👈 clase para usuario
+    userMsg.textContent = "Tú: " + prompt;
+    messages.appendChild(userMsg);
+
     const botMsg = document.createElement("div");
+    botMsg.classList.add("bot"); // 👈 clase para bot
     botMsg.textContent = "Bot: " + (data.reply || "Sin respuesta");
     messages.appendChild(botMsg);
 

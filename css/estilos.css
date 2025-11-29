@@ -791,19 +791,23 @@ input[type="text"] {
 #chat-messages .user {
   background: #0078ff;
   color: #fff;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
   margin: 5px;
   text-align: right;
+  max-width: 70%;
+  margin-left: auto; /* alinea a la derecha */
 }
 
 #chat-messages .bot {
   background: #eee;
   color: #000;
-  padding: 8px;
-  border-radius: 10px;
+  padding: 8px 12px;
+  border-radius: 12px;
   margin: 5px;
   text-align: left;
+  max-width: 70%;
+  margin-right: auto; /* alinea a la izquierda */
 }
 #chat-input {
   display: flex;
