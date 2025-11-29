@@ -4,9 +4,9 @@ export default async function handler(req, res) {
   }
 
  
-  const historyAsistente = req.body.history || [];
+  const history = req.body.history || [];
 
-  if (!historyAsistente.length) {
+  if (!history.length) {
     return res.status(400).json({ error: "Historial vacío" });
   }
    

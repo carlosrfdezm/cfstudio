@@ -350,7 +350,7 @@
       const data = await res.json();
 
       // Guardar respuesta del bot en historial
-      history.push({ role: "bot", text: data.reply });
+      historyAsistente.push({ role: "bot", text: data.reply });
 
       // Mostrar respuesta del bot
       const botMsg = document.createElement("div");
