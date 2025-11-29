@@ -781,6 +781,10 @@ input[type="text"] {
   padding: 10px;
   overflow-y: auto;
   font-size: 14px;
+  background: #f9f9f9;
+}
+#chat-messages div {
+  margin-bottom: 5px;
 }
 
 #chat-input {

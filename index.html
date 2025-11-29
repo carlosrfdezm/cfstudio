@@ -306,24 +306,40 @@ async function sendMessage() {
   if (!prompt) return;
 
   const messages = document.getElementById("chat-messages");
+
+  // Mostrar mensaje del usuario
   const userMsg = document.createElement("div");
   userMsg.textContent = "Tú: " + prompt;
   messages.appendChild(userMsg);
 
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt })
-  });
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
 
-  const data = await res.json();
-  const botMsg = document.createElement("div");
-  botMsg.textContent = "Bot: " + data.reply;
-  messages.appendChild(botMsg);
+    if (!res.ok) {
+      throw new Error("Error en la petición: " + res.status);
+    }
+
+    const data = await res.json();
+
+    // Mostrar respuesta del bot
+    const botMsg = document.createElement("div");
+    botMsg.textContent = "Bot: " + (data.reply || "Sin respuesta");
+    messages.appendChild(botMsg);
+
+  } catch (error) {
+    const errMsg = document.createElement("div");
+    errMsg.textContent = "Error: " + error.message;
+    messages.appendChild(errMsg);
+  }
 
   document.getElementById("user-input").value = "";
   messages.scrollTop = messages.scrollHeight;
 }
+
 
 </script>
 
