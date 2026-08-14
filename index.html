@@ -25,6 +25,7 @@
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav ms-auto">
               <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+              <li class="nav-item"><a class="nav-link" href="#portafolios">Portafolios</a></li>
               <li class="nav-item"><a class="nav-link" href="#sobremi">Sobre mí</a></li>
               <li class="nav-item"><a class="nav-link" href="#logos">Logos</a></li>
               <li class="nav-item"><a class="nav-link" href="#maquetacion" >Maquetación</a></li>
@@ -32,7 +33,7 @@
               <li class="nav-item"><a class="nav-link" href="#web">Web</a></li>
               <li class="nav-item"><a class="nav-link" href="#windows" >App Windows</a></li>
               <li class="nav-item"><a class="nav-link" href="#traduccion" >Traducción</a></li>
-              <li class="nav-item"><a class="nav-link" href="#contacto" >Contacto</a></li>	
+              <li class="nav-item"><a class="nav-link" href="#contacto" >Contacto</a></li>    
         </ul>
       </div>
     </div>
@@ -57,6 +58,59 @@
   <div class="section-content">
     <h2>Servicios</h2>
     <div class="row" id="tarjetas-servicios" style="display: flex; flex-wrap: wrap; justify-content: center;"></div>
+  </div>
+</section>
+
+<!-- Sección Portafolios: carousel con muestras enlazadas -->
+<section id="portafolios" class="section-alt">
+  <div class="container section-content fade-in">
+    <h2 class="text-center mb-4">Portafolios</h2>
+
+    <div id="carouselPortafolios" class="carousel slide portfolio-carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <a href="https://beautyshe.vercel.app/" target="_blank" rel="noopener">
+            <img src="images/portfolio-beautyshe.png" class="d-block w-100" alt="BeautyShe">
+          </a>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>BeautyShe</h5>
+            <p>Tienda de belleza — diseño y maquetación</p>
+            <a class="btn btn-sm btn-light" href="https://beautyshe.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <a href="https://empres-gilt.vercel.app/" target="_blank" rel="noopener">
+            <img src="images/portfolio-empres-gilt.png" class="d-block w-100" alt="Empresa Gilt">
+          </a>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Empresa Gilt</h5>
+            <p>Portfolio corporativo</p>
+            <a class="btn btn-sm btn-light" href="https://empres-gilt.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <a href="https://boxeo-total.vercel.app/" target="_blank" rel="noopener">
+            <img src="images/portfolio-boxeo-total.png" class="d-block w-100" alt="Boxeo Total">
+          </a>
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Boxeo Total</h5>
+            <p>Web deportiva — entrenamiento</p>
+            <a class="btn btn-sm btn-light" href="https://boxeo-total.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselPortafolios" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselPortafolios" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
   </div>
 </section>
 

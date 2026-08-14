@@ -862,3 +862,32 @@ input[type="text"] {
 
 
 
+/* Estilos para la sección Portafolios (carousel) */
+.portfolio-carousel .carousel-item img {
+  max-height: 420px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.portfolio-carousel .carousel-caption {
+  background: rgba(0,0,0,0.5);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.portfolio-carousel .carousel-caption h5 {
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.portfolio-carousel .carousel-caption p {
+  margin-bottom: 8px;
+  color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+  .portfolio-carousel .carousel-item img { max-height: 280px; }
+  .portfolio-carousel .carousel-caption { font-size: 14px; }
+}
+
+
