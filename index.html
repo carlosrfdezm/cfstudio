@@ -74,56 +74,14 @@
   </div>
 </section>
 
-<!-- Sección Portafolios: carousel con muestras enlazadas -->
+<!-- Sección Portafolios -->
 <section id="portafolios" class="section-alt">
   <div class="container section-content fade-in">
     <h2 class="text-center mb-4">Portafolios</h2>
 
     <div id="carouselPortafolios" class="carousel slide portfolio-carousel" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <a href="https://beautyshe.vercel.app/" target="_blank" rel="noopener">
-            <img src="images/portfolio-beautyshe.png" class="d-block w-100" alt="BeautyShe">
-          </a>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>BeautyShe</h5>
-            <p>Tienda de belleza — diseño y maquetación</p>
-            <a class="btn btn-sm btn-light" href="https://beautyshe.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <a href="https://empres-gilt.vercel.app/" target="_blank" rel="noopener">
-            <img src="images/portfolio-empres-gilt.png" class="d-block w-100" alt="Empresa Gilt">
-          </a>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Empresa Gilt</h5>
-            <p>Portfolio corporativo</p>
-            <a class="btn btn-sm btn-light" href="https://empres-gilt.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <a href="https://boxeo-total.vercel.app/" target="_blank" rel="noopener">
-            <img src="images/portfolio-boxeo-total.png" class="d-block w-100" alt="Boxeo Total">
-          </a>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Boxeo Total</h5>
-            <p>Web deportiva — entrenamiento</p>
-            <a class="btn btn-sm btn-light" href="https://boxeo-total.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
-          </div>
-        </div>
-
-        <div class="carousel-item">
-          <a href="https://electrostore-ten.vercel.app/" target="_blank" rel="noopener">
-            <img src="images/portfolio-electrostore.png" class="d-block w-100" alt="ElectroStore">
-          </a>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>ElectroStore</h5>
-            <p>Tienda electrónica — ecommerce</p>
-            <a class="btn btn-sm btn-light" href="https://electrostore-ten.vercel.app/" target="_blank" rel="noopener">Ver sitio</a>
-          </div>
-        </div>
+      <div class="carousel-inner" id="carousel-contenido">
+        <!-- Se llenará dinámicamente desde Supabase -->
       </div>
 
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselPortafolios" data-bs-slide="prev">
@@ -265,6 +223,12 @@
     </div>
   </div>
 </section>
+
+<div class="mt-3">
+  <a href="dashboard-admin.html" class="text-white-50 small">
+    <i class="fas fa-lock me-1"></i>Panel de Administración
+  </a>
+</div>
 
 <section id="dashboard-mini" style="padding: 2rem; background: #f9f9f9;">
   <h2 style="text-align: center;  color: #5E4B8B ">📊 Visitas por país</h2>
@@ -487,5 +451,6 @@ s0.parentNode.insertBefore(s1,s0);
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Carlos Fernández","url":"https://TU-DOMINIO.cl","description":"Desarrollo web, diseño gráfico, maquetación editorial, aplicaciones Windows y traducción.","email":"carlosrfdezm@gmail.com"}
 </script>
+<script src="js/portafolios.js"></script>
 </body>
 </html>

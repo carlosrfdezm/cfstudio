@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración | CF Studio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background: #f4f6f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .sidebar {
+      background: #5E4B8B;
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .sidebar .nav-link {
+      color: rgba(255,255,255,0.8);
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      transition: all 0.3s;
+    }
+    
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+    
+    .main-content {
+      padding: 30px;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+    
+    .card-header {
+      background: white;
+      border-bottom: 2px solid #f0f0f0;
+      font-weight: bold;
+      color: #5E4B8B;
+    }
+    
+    .btn-primary {
+      background: #5E4B8B;
+      border-color: #5E4B8B;
+    }
+    
+    .btn-primary:hover {
+      background: #4a3a6f;
+      border-color: #4a3a6f;
+    }
+    
+    .table th {
+      background: #f8f9fa;
+      color: #5E4B8B;
+    }
+    
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .modal-content {
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar" style="width: 250px;">
+      <h4 class="mb-4"><i class="fas fa-cog me-2"></i>Panel Admin</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" data-section="portafolios">
+            <i class="fas fa-images me-2"></i>Portafolios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-section="servicios">
+            <i class="fas fa-cogs me-2"></i>Servicios
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-section="dashboard">
+            <i class="fas fa-chart-bar me-2"></i>Estadísticas
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" data-section="mensajes">
+            <i class="fas fa-comments me-2"></i>Mensajes
+          </a>
+        </li>
+      </ul>
+      <hr>
+      <a href="index.html" class="text-white text-decoration-none">
+        <i class="fas fa-arrow-left me-2"></i>Ver Sitio
+      </a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content flex-grow-1">
+      <!-- Portafolios Section -->
+      <div id="section-portafolios" class="dashboard-section">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><i class="fas fa-images me-2"></i>Gestión de Portafolios</h2>
+          <button class="btn btn-primary" onclick="abrirModalPortafolio()">
+            <i class="fas fa-plus me-2"></i>Nuevo Portafolio
+          </button>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Imagen</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>URL</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-portafolios">
+                  <!-- Se llenará con JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Servicios Section (inicialmente oculto) -->
+      <div id="section-servicios" class="dashboard-section d-none">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2><i class="fas fa-cogs me-2"></i>Gestión de Servicios</h2>
+          <button class="btn btn-primary" onclick="abrirModalServicio()">
+            <i class="fas fa-plus me-2"></i>Nuevo Servicio
+          </button>
+        </div>
+        
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Icono</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-servicios">
+                  <!-- Se llenará con JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Dashboard Section -->
+      <div id="section-dashboard" class="dashboard-section d-none">
+        <h2 class="mb-4"><i class="fas fa-chart-bar me-2"></i>Estadísticas</h2>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card text-center">
+              <div class="card-body">
+                <h3 class="card-title">Total Visitas</h3>
+                <h2 class="text-primary" id="total-visitas">0</h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card text-center">
+              <div class="card-body">
+                <h3 class="card-title">Portafolios</h3>
+                <h2 class="text-success" id="total-portafolios">0</h2>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card text-center">
+              <div class="card-body">
+                <h3 class="card-title">Mensajes</h3>
+                <h2 class="text-warning" id="total-mensajes">0</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card mt-4">
+          <div class="card-header">
+            <i class="fas fa-chart-pie me-2"></i>Visitas por País
+          </div>
+          <div class="card-body">
+            <canvas id="adminChart" height="100"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mensajes Section -->
+      <div id="section-mensajes" class="dashboard-section d-none">
+        <h2 class="mb-4"><i class="fas fa-comments me-2"></i>Mensajes Recibidos</h2>
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>IP</th>
+                    <th>Remitente</th>
+                    <th>Mensaje</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-mensajes">
+                  <!-- Se llenará con JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Portafolio -->
+  <div class="modal fade" id="modalPortafolio" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalPortafolio">Nuevo Portafolio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formPortafolio">
+            <input type="hidden" id="portafolio-id">
+            <div class="mb-3">
+              <label class="form-label">Título</label>
+              <input type="text" class="form-control" id="portafolio-titulo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="portafolio-descripcion" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL del sitio</label>
+              <input type="url" class="form-control" id="portafolio-url">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">URL de la imagen</label>
+              <input type="url" class="form-control" id="portafolio-imagen">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Categoría</label>
+              <select class="form-control" id="portafolio-categoria">
+                <option value="web">Web</option>
+                <option value="diseño">Diseño</option>
+                <option value="video">Video</option>
+                <option value="educacion">Educación</option>
+              </select>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="portafolio-activo" checked>
+              <label class="form-check-label">Activo</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="guardarPortafolio()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Servicio -->
+  <div class="modal fade" id="modalServicio" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloModalServicio">Nuevo Servicio</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formServicio">
+            <input type="hidden" id="servicio-id">
+            <div class="mb-3">
+              <label class="form-label">Título</label>
+              <input type="text" class="form-control" id="servicio-titulo" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="servicio-descripcion" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Icono (Font Awesome)</label>
+              <input type="text" class="form-control" id="servicio-icono" placeholder="fas fa-code">
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="servicio-activo" checked>
+              <label class="form-check-label">Activo</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" onclick="guardarServicio()">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    // Configuración de Supabase
+    const SUPABASE_URL = 'https://zrrxvuviwywvjkautkrp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    // Navegación entre secciones
+    document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Ocultar todas las secciones
+        document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.add('d-none'));
+        
+        // Mostrar la sección seleccionada
+        const section = link.getAttribute('data-section');
+        document.getElementById(`section-${section}`).classList.remove('d-none');
+        
+        // Actualizar clase activa
+        document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        
+        // Cargar datos según la sección
+        if (section === 'portafolios') cargarPortafolios();
+        if (section === 'servicios') cargarServicios();
+        if (section === 'dashboard') cargarDashboard();
+        if (section === 'mensajes') cargarMensajes();
+      });
+    });
+    
+    // ===== CRUD PORTAFOLIOS =====
+    async function cargarPortafolios() {
+      const { data, error } = await supabase
+        .from('portafolios')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error al cargar portafolios:', error);
+        return;
+      }
+      
+      const tbody = document.getElementById('tabla-portafolios');
+      tbody.innerHTML = '';
+      
+      data.forEach(portafolio => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${portafolio.id}</td>
+          <td><img src="${portafolio.imagen || 'placeholder.jpg'}" width="50" height="30" class="rounded"></td>
+          <td>${portafolio.titulo}</td>
+          <td>${portafolio.descripcion || '-'}</td>
+          <td><a href="${portafolio.url}" target="_blank">${portafolio.url || '-'}</a></td>
+          <td>
+            <span class="status-badge ${portafolio.activo ? 'status-active' : 'status-inactive'}">
+              ${portafolio.activo ? 'Activo' : 'Inactivo'}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" onclick="editarPortafolio(${portafolio.id})">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarPortafolio(${portafolio.id})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    
+    function abrirModalPortafolio() {
+      document.getElementById('formPortafolio').reset();
+      document.getElementById('portafolio-id').value = '';
+      document.getElementById('tituloModalPortafolio').textContent = 'Nuevo Portafolio';
+      new bootstrap.Modal(document.getElementById('modalPortafolio')).show();
+    }
+    
+    async function editarPortafolio(id) {
+      const { data } = await supabase.from('portafolios').select('*').eq('id', id).single();
+      
+      if (data) {
+        document.getElementById('portafolio-id').value = data.id;
+        document.getElementById('portafolio-titulo').value = data.titulo;
+        document.getElementById('portafolio-descripcion').value = data.descripcion || '';
+        document.getElementById('portafolio-url').value = data.url || '';
+        document.getElementById('portafolio-imagen').value = data.imagen || '';
+        document.getElementById('portafolio-categoria').value = data.categoria || 'web';
+        document.getElementById('portafolio-activo').checked = data.activo;
+        
+        document.getElementById('tituloModalPortafolio').textContent = 'Editar Portafolio';
+        new bootstrap.Modal(document.getElementById('modalPortafolio')).show();
+      }
+    }
+    
+    async function guardarPortafolio() {
+      const data = {
+        titulo: document.getElementById('portafolio-titulo').value,
+        descripcion: document.getElementById('portafolio-descripcion').value,
+        url: document.getElementById('portafolio-url').value,
+        imagen: document.getElementById('portafolio-imagen').value,
+        categoria: document.getElementById('portafolio-categoria').value,
+        activo: document.getElementById('portafolio-activo').checked
+      };
+      
+      const id = document.getElementById('portafolio-id').value;
+      
+      let result;
+      if (id) {
+        result = await supabase.from('portafolios').update(data).eq('id', id);
+      } else {
+        result = await supabase.from('portafolios').insert([data]);
+      }
+      
+      if (result.error) {
+        alert('Error: ' + result.error.message);
+      } else {
+        bootstrap.Modal.getInstance(document.getElementById('modalPortafolio')).hide();
+        cargarPortafolios();
+      }
+    }
+    
+    async function eliminarPortafolio(id) {
+      if (confirm('¿Estás seguro de eliminar este portafolio?')) {
+        const { error } = await supabase.from('portafolios').delete().eq('id', id);
+        if (error) {
+          alert('Error: ' + error.message);
+        } else {
+          cargarPortafolios();
+        }
+      }
+    }
+    
+    // ===== CRUD SERVICIOS =====
+    async function cargarServicios() {
+      const { data, error } = await supabase
+        .from('servicios_admin')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error al cargar servicios:', error);
+        return;
+      }
+      
+      const tbody = document.getElementById('tabla-servicios');
+      tbody.innerHTML = '';
+      
+      data.forEach(servicio => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${servicio.id}</td>
+          <td>${servicio.titulo}</td>
+          <td>${servicio.descripcion || '-'}</td>
+          <td><i class="${servicio.icono}"></i> ${servicio.icono}</td>
+          <td>
+            <span class="status-badge ${servicio.activo ? 'status-active' : 'status-inactive'}">
+              ${servicio.activo ? 'Activo' : 'Inactivo'}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning me-2" onclick="editarServicio(${servicio.id})">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarServicio(${servicio.id})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    
+    function abrirModalServicio() {
+      document.getElementById('formServicio').reset();
+      document.getElementById('servicio-id').value = '';
+      document.getElementById('tituloModalServicio').textContent = 'Nuevo Servicio';
+      new bootstrap.Modal(document.getElementById('modalServicio')).show();
+    }
+    
+    async function editarServicio(id) {
+      const { data } = await supabase.from('servicios_admin').select('*').eq('id', id).single();
+      
+      if (data) {
+        document.getElementById('servicio-id').value = data.id;
+        document.getElementById('servicio-titulo').value = data.titulo;
+        document.getElementById('servicio-descripcion').value = data.descripcion || '';
+        document.getElementById('servicio-icono').value = data.icono || '';
+        document.getElementById('servicio-activo').checked = data.activo;
+        
+        document.getElementById('tituloModalServicio').textContent = 'Editar Servicio';
+        new bootstrap.Modal(document.getElementById('modalServicio')).show();
+      }
+    }
+    
+    async function guardarServicio() {
+      const data = {
+        titulo: document.getElementById('servicio-titulo').value,
+        descripcion: document.getElementById('servicio-descripcion').value,
+        icono: document.getElementById('servicio-icono').value,
+        activo: document.getElementById('servicio-activo').checked
+      };
+      
+      const id = document.getElementById('servicio-id').value;
+      
+      let result;
+      if (id) {
+        result = await supabase.from('servicios_admin').update(data).eq('id', id);
+      } else {
+        result = await supabase.from('servicios_admin').insert([data]);
+      }
+      
+      if (result.error) {
+        alert('Error: ' + result.error.message);
+      } else {
+        bootstrap.Modal.getInstance(document.getElementById('modalServicio')).hide();
+        cargarServicios();
+      }
+    }
+    
+    async function eliminarServicio(id) {
+      if (confirm('¿Estás seguro de eliminar este servicio?')) {
+        const { error } = await supabase.from('servicios_admin').delete().eq('id', id);
+        if (error) {
+          alert('Error: ' + error.message);
+        } else {
+          cargarServicios();
+        }
+      }
+    }
+    
+    // ===== DASHBOARD =====
+    async function cargarDashboard() {
+      // Contar visitas
+      const { count: visitas } = await supabase
+        .from('visitas')
+        .select('*', { count: 'exact', head: true });
+      
+      document.getElementById('total-visitas').textContent = visitas || 0;
+      
+      // Contar portafolios
+      const { count: portafolios } = await supabase
+        .from('portafolios')
+        .select('*', { count: 'exact', head: true });
+      
+      document.getElementById('total-portafolios').textContent = portafolios || 0;
+      
+      // Contar mensajes
+      const { count: mensajes } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true });
+      
+      document.getElementById('total-mensajes').textContent = mensajes || 0;
+      
+      // Gráfico de visitas por país
+      const { data } = await supabase.from('visitas').select('pais');
+      
+      const visitasPorPais = {};
+      data.forEach(v => {
+        const pais = v.pais || 'Desconocido';
+        visitasPorPais[pais] = (visitasPorPais[pais] || 0) + 1;
+      });
+      
+      const labels = Object.keys(visitasPorPais);
+      const values = Object.values(visitasPorPais);
+      
+      // Destruir gráfico anterior si existe
+      if (window.adminChartInstance) {
+        window.adminChartInstance.destroy();
+      }
+      
+      const ctx = document.getElementById('adminChart').getContext('2d');
+      window.adminChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Visitas por País',
+            data: values,
+            backgroundColor: '#5E4B8B',
+            borderRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    // ===== MENSAJES =====
+    async function cargarMensajes() {
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50);
+      
+      if (error) {
+        console.error('Error al cargar mensajes:', error);
+        return;
+      }
+      
+      const tbody = document.getElementById('tabla-mensajes');
+      tbody.innerHTML = '';
+      
+      data.forEach(msg => {
+        const tr = document.createElement('tr');
+        const fecha = new Date(msg.created_at).toLocaleString('es-CL');
+        tr.innerHTML = `
+          <td>${fecha}</td>
+          <td>${msg.ip || '-'}</td>
+          <td>
+            <span class="badge ${msg.sender === 'admin' ? 'bg-success' : 'bg-info'}">
+              ${msg.sender === 'admin' ? 'Admin' : 'Visitante'}
+            </span>
+          </td>
+          <td>${msg.content}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    
+       // Cargar portafolios al inicio
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarPortafolios();
+    });
+  </script>
+
+  <script>
+    // 🔐 AUTENTICACIÓN SIMPLE
+    const ADMIN_PASSWORD = '12345678';
+
+    // Verificación simple
+    function verificarAcceso() {
+      const password = prompt('Ingresa la contraseña de administrador:');
+      if (password !== ADMIN_PASSWORD) {
+        alert('Acceso denegado');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Llama a verificarAcceso() al inicio
+    verificarAcceso();
+  </script>
+</body>
+</html>
