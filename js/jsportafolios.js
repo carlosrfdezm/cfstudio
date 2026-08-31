@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     const carouselInner = document.getElementById('carousel-contenido');
+    
+    if (!carouselInner) {
+      console.error('No se encontró el elemento #carousel-contenido');
+      return;
+    }
+    
     carouselInner.innerHTML = '';
     
     if (data.length === 0) {
@@ -43,6 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       carouselInner.appendChild(item);
     });
     
+    // Reiniciar carousel
     const carousel = document.getElementById('carouselPortafolios');
     if (carousel) {
       new bootstrap.Carousel(carousel);
