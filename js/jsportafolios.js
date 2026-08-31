@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       carouselInner.appendChild(item);
     });
     
-    // Reiniciar carousel
     const carousel = document.getElementById('carouselPortafolios');
     if (carousel) {
       new bootstrap.Carousel(carousel);
