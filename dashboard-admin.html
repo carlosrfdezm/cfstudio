@@ -12,7 +12,6 @@
       font-family: 'Segoe UI', sans-serif;
     }
     
-    /* Login screen */
     #login-screen {
       min-height: 100vh;
       display: flex;
@@ -41,15 +40,8 @@
       border: none;
       padding: 12px;
       font-size: 16px;
-      transition: all 0.3s;
     }
     
-    .login-card .btn-primary:hover {
-      background: #4a3a6f;
-      transform: translateY(-2px);
-    }
-    
-    /* Sidebar */
     .sidebar {
       background: #5E4B8B;
       color: white;
@@ -62,7 +54,6 @@
       padding: 12px 15px;
       border-radius: 8px;
       margin-bottom: 5px;
-      transition: all 0.3s;
     }
     
     .sidebar .nav-link:hover,
@@ -94,11 +85,6 @@
       border-color: #5E4B8B;
     }
     
-    .btn-primary:hover {
-      background: #4a3a6f;
-      border-color: #4a3a6f;
-    }
-    
     .table th {
       background: #f8f9fa;
       color: #5E4B8B;
@@ -128,7 +114,6 @@
 </head>
 <body>
   
-  <!-- Login Screen -->
   <div id="login-screen">
     <div class="login-card">
       <h2><i class="fas fa-lock me-2"></i>Panel Admin</h2>
@@ -149,10 +134,8 @@
     </div>
   </div>
   
-  <!-- Admin Panel (oculto hasta login) -->
   <div id="admin-panel" class="d-none">
     <div class="d-flex">
-      <!-- Sidebar -->
       <div class="sidebar" style="width: 250px;">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h4><i class="fas fa-cog me-2"></i>Panel Admin</h4>
@@ -188,9 +171,7 @@
         </a>
       </div>
       
-      <!-- Main Content -->
       <div class="main-content flex-grow-1">
-        <!-- Portafolios Section -->
         <div id="section-portafolios" class="dashboard-section">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-images me-2"></i>Gestión de Portafolios</h2>
@@ -221,7 +202,6 @@
           </div>
         </div>
         
-        <!-- Servicios Section -->
         <div id="section-servicios" class="dashboard-section d-none">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="fas fa-cogs me-2"></i>Gestión de Servicios</h2>
@@ -251,7 +231,6 @@
           </div>
         </div>
         
-        <!-- Dashboard Section -->
         <div id="section-dashboard" class="dashboard-section d-none">
           <h2 class="mb-4"><i class="fas fa-chart-bar me-2"></i>Estadísticas</h2>
           <div class="row">
@@ -291,7 +270,6 @@
           </div>
         </div>
         
-        <!-- Mensajes Section -->
         <div id="section-mensajes" class="dashboard-section d-none">
           <h2 class="mb-4"><i class="fas fa-comments me-2"></i>Mensajes Recibidos</h2>
           <div class="card">
@@ -316,7 +294,6 @@
     </div>
   </div>
   
-  <!-- Modales -->
   <div class="modal fade" id="modalPortafolio" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -402,21 +379,20 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <script>
-    // ===== CONFIGURACIÓN DE SUPABASE (SOLO UNA VEZ) =====
-    const SUPABASE_URL = 'https://zrrxvuviwywvjkautkrp.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E';
+    // CONFIGURACIÓN DE SUPABASE (SOLO UNA VEZ)
+    const supabaseUrl = 'https://zrrxvuviwywvjkautkrp.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpycnh2dXZpd3l3dmprYXV0a3JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQwNzMwMTYsImV4cCI6MjA2OTY0OTAxNn0.KlUARhP3edPcBGHTpoexxGXh5neO9zzCvi7Dk0J6X_E';
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const sb = window.supabase.createClient(supabaseUrl, supabaseKey);
     
     let currentUser = null;
     
-    // ===== AUTENTICACIÓN =====
+    // LOGIN
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -424,14 +400,12 @@
       const password = document.getElementById('login-password').value;
       
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await sb.auth.signInWithPassword({
           email: email,
           password: password
         });
         
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
         
         currentUser = data.user;
         mostrarPanel();
@@ -450,30 +424,26 @@
     }
     
     function cerrarSesion() {
-      supabase.auth.signOut().then(() => {
+      sb.auth.signOut().then(() => {
         window.location.reload();
       });
     }
     
-    // Verificar sesión al cargar
     document.addEventListener('DOMContentLoaded', async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await sb.auth.getSession();
       if (session) {
         currentUser = session.user;
         mostrarPanel();
       }
     });
     
-    // ===== NAVEGACIÓN =====
+    // NAVEGACIÓN
     document.querySelectorAll('.sidebar .nav-link').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
-        
         document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.add('d-none'));
-        
         const section = link.getAttribute('data-section');
         document.getElementById(`section-${section}`).classList.remove('d-none');
-        
         document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
         link.classList.add('active');
         
@@ -484,9 +454,9 @@
       });
     });
     
-    // ===== CRUD PORTAFOLIOS =====
+    // CRUD PORTAFOLIOS
     async function cargarPortafolios() {
-      const { data, error } = await supabase
+      const { data, error } = await sb
         .from('portafolios')
         .select('*')
         .order('created_at', { ascending: false });
@@ -533,8 +503,7 @@
     }
     
     async function editarPortafolio(id) {
-      const { data } = await supabase.from('portafolios').select('*').eq('id', id).single();
-      
+      const { data } = await sb.from('portafolios').select('*').eq('id', id).single();
       if (data) {
         document.getElementById('portafolio-id').value = data.id;
         document.getElementById('portafolio-titulo').value = data.titulo;
@@ -543,7 +512,6 @@
         document.getElementById('portafolio-imagen').value = data.imagen || '';
         document.getElementById('portafolio-categoria').value = data.categoria || 'web';
         document.getElementById('portafolio-activo').checked = data.activo;
-        
         document.getElementById('tituloModalPortafolio').textContent = 'Editar Portafolio';
         new bootstrap.Modal(document.getElementById('modalPortafolio')).show();
       }
@@ -558,16 +526,13 @@
         categoria: document.getElementById('portafolio-categoria').value,
         activo: document.getElementById('portafolio-activo').checked
       };
-      
       const id = document.getElementById('portafolio-id').value;
-      
       let result;
       if (id) {
-        result = await supabase.from('portafolios').update(data).eq('id', id);
+        result = await sb.from('portafolios').update(data).eq('id', id);
       } else {
-        result = await supabase.from('portafolios').insert([data]);
+        result = await sb.from('portafolios').insert([data]);
       }
-      
       if (result.error) {
         alert('Error: ' + result.error.message);
       } else {
@@ -578,7 +543,7 @@
     
     async function eliminarPortafolio(id) {
       if (confirm('¿Estás seguro de eliminar este portafolio?')) {
-        const { error } = await supabase.from('portafolios').delete().eq('id', id);
+        const { error } = await sb.from('portafolios').delete().eq('id', id);
         if (error) {
           alert('Error: ' + error.message);
         } else {
@@ -587,9 +552,9 @@
       }
     }
     
-    // ===== CRUD SERVICIOS =====
+    // CRUD SERVICIOS
     async function cargarServicios() {
-      const { data, error } = await supabase
+      const { data, error } = await sb
         .from('servicios_admin')
         .select('*')
         .order('created_at', { ascending: false });
@@ -635,15 +600,13 @@
     }
     
     async function editarServicio(id) {
-      const { data } = await supabase.from('servicios_admin').select('*').eq('id', id).single();
-      
+      const { data } = await sb.from('servicios_admin').select('*').eq('id', id).single();
       if (data) {
         document.getElementById('servicio-id').value = data.id;
         document.getElementById('servicio-titulo').value = data.titulo;
         document.getElementById('servicio-descripcion').value = data.descripcion || '';
         document.getElementById('servicio-icono').value = data.icono || '';
         document.getElementById('servicio-activo').checked = data.activo;
-        
         document.getElementById('tituloModalServicio').textContent = 'Editar Servicio';
         new bootstrap.Modal(document.getElementById('modalServicio')).show();
       }
@@ -656,16 +619,13 @@
         icono: document.getElementById('servicio-icono').value,
         activo: document.getElementById('servicio-activo').checked
       };
-      
       const id = document.getElementById('servicio-id').value;
-      
       let result;
       if (id) {
-        result = await supabase.from('servicios_admin').update(data).eq('id', id);
+        result = await sb.from('servicios_admin').update(data).eq('id', id);
       } else {
-        result = await supabase.from('servicios_admin').insert([data]);
+        result = await sb.from('servicios_admin').insert([data]);
       }
-      
       if (result.error) {
         alert('Error: ' + result.error.message);
       } else {
@@ -676,7 +636,7 @@
     
     async function eliminarServicio(id) {
       if (confirm('¿Estás seguro de eliminar este servicio?')) {
-        const { error } = await supabase.from('servicios_admin').delete().eq('id', id);
+        const { error } = await sb.from('servicios_admin').delete().eq('id', id);
         if (error) {
           alert('Error: ' + error.message);
         } else {
@@ -685,18 +645,18 @@
       }
     }
     
-    // ===== DASHBOARD =====
+    // DASHBOARD
     async function cargarDashboard() {
-      const { count: visitas } = await supabase.from('visitas').select('*', { count: 'exact', head: true });
+      const { count: visitas } = await sb.from('visitas').select('*', { count: 'exact', head: true });
       document.getElementById('total-visitas').textContent = visitas || 0;
       
-      const { count: portafolios } = await supabase.from('portafolios').select('*', { count: 'exact', head: true });
+      const { count: portafolios } = await sb.from('portafolios').select('*', { count: 'exact', head: true });
       document.getElementById('total-portafolios').textContent = portafolios || 0;
       
-      const { count: mensajes } = await supabase.from('messages').select('*', { count: 'exact', head: true });
+      const { count: mensajes } = await sb.from('messages').select('*', { count: 'exact', head: true });
       document.getElementById('total-mensajes').textContent = mensajes || 0;
       
-      const { data } = await supabase.from('visitas').select('pais');
+      const { data } = await sb.from('visitas').select('pais');
       
       const visitasPorPais = {};
       data.forEach(v => {
@@ -732,9 +692,9 @@
       });
     }
     
-    // ===== MENSAJES =====
+    // MENSAJES
     async function cargarMensajes() {
-      const { data, error } = await supabase
+      const { data, error } = await sb
         .from('messages')
         .select('*')
         .order('created_at', { ascending: false })
